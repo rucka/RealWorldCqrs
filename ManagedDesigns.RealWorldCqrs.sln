@@ -1,0 +1,52 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedDesigns.RealWorldCqrs.Core", "ManagedDesigns.RealWorldCqrs.Core\ManagedDesigns.RealWorldCqrs.Core.csproj", "{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C8E02DFB-D305-42C9-A5CF-714E14139891}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\NuGet.txt = .nuget\NuGet.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedDesigns.RealWorldCqrs.Fixtures", "ManagedDesigns.RealWorldCqrs.Fixtures\ManagedDesigns.RealWorldCqrs.Fixtures.csproj", "{4ECC4FC8-478F-444F-8BB3-97774F94EEEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3023C61B-75DB-4558-9653-7EA7A17F582A}"
+	ProjectSection(SolutionItems) = preProject
+		ManagedDesigns.RealWorldCqrs.vsmdi = ManagedDesigns.RealWorldCqrs.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ManagedDesigns.RealWorldCqrs.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}.Debug|x86.Build.0 = Debug|Any CPU
+		{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}.Release|x86.ActiveCfg = Release|x86
+		{E6B0F355-EE20-4AE3-94B7-1EEB8E563105}.Release|x86.Build.0 = Release|x86
+		{4ECC4FC8-478F-444F-8BB3-97774F94EEEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ECC4FC8-478F-444F-8BB3-97774F94EEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ECC4FC8-478F-444F-8BB3-97774F94EEEE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4ECC4FC8-478F-444F-8BB3-97774F94EEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ECC4FC8-478F-444F-8BB3-97774F94EEEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ECC4FC8-478F-444F-8BB3-97774F94EEEE}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

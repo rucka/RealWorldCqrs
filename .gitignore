@@ -1,0 +1,9 @@
+.idea
+.log 
+*.suo
+*.user
+TestResult
+bin
+obj
+packages/*
+!packages/repositories.config

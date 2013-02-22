@@ -1,0 +1,3 @@
+FILE DELETED
+
+ARTICLE_Real world CQRS ed ES.rar->ARTICLE_Real world CQRS ed ES\ManagedDesigns.RealWorldCqrs.Light\.nuget\NuGet.exe has been removed since it was found to match the FILE FILTER= ExchangeLabs File Filter List 1: <in> *.exe file filter.
