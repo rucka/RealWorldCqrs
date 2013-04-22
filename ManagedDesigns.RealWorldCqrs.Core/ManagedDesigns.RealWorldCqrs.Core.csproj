@@ -123,7 +123,11 @@
     <Compile Include="Domain\QueryModel\AcceptedOrder.cs" />
     <Compile Include="Domain\QueryModel\RejectedOrder.cs" />
     <Compile Include="Domain\QueryModel\ValidationOrder.cs" />
+    <Compile Include="Domain\Routers\OrderProcessingSagaRouter.cs" />
+    <Compile Include="Domain\Routers\SagaStarted.cs" />
+    <Compile Include="Domain\Saga\OrderProcessingSaga.cs" />
     <Compile Include="Infrastructure\AggregateRoot.cs" />
+    <Compile Include="Infrastructure\ISagaIdStore.cs" />
     <Compile Include="Infrastructure\StorageAccess.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

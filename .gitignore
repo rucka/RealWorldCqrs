@@ -5,5 +5,6 @@
 TestResult
 bin
 obj
+article
 packages/*
 !packages/repositories.config

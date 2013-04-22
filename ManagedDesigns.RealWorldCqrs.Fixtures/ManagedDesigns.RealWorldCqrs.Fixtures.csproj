@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -75,12 +75,16 @@
     <Compile Include="DenormilizerFixtures\ManagerInfoDenormalizerFixture.cs" />
     <Compile Include="DenormilizerFixtures\RejectedOrderDenormalizerFixture.cs" />
     <Compile Include="DenormilizerFixtures\OrderInProgressDenormalizerFixture.cs" />
+    <Compile Include="DomainFixtures\given_an_order_placed_when_an_order_not_processed_by_two_manager.cs" />
+    <Compile Include="DomainFixtures\given_an_order_placed_when_an_order_not_validated_by_manager_and_a_second_order_not_validated_by_manager.cs" />
+    <Compile Include="DomainFixtures\given_an_order_placed_when_an_order_validated_by_manager_and_a_second_order_validated_by_manager.cs" />
     <Compile Include="DomainFixtures\given_an_order_with_total_amount_greaten_than_100_given_a_manager_when_process_order.cs" />
     <Compile Include="DomainFixtures\given_an_order_with_total_amount_lower_than_100_given_a_manager_when_process_order.cs" />
     <Compile Include="IntegrationFixtures\CreateManagerScenarioFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainFixtures\given_a_new_order_when_place_an_order.cs" />
     <Compile Include="DomainFixtures\when_create_new_manager.cs" />
+    <Compile Include="SagaFixtureBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ManagedDesigns.RealWorldCqrs.Core\ManagedDesigns.RealWorldCqrs.Core.csproj">
