@@ -4,6 +4,7 @@ using CommonDomain.Core;
 using ManagedDesigns.RealWorldCqrs.Core.Domain.Commands;
 using ManagedDesigns.RealWorldCqrs.Core.Domain.Model;
 using ManagedDesigns.RealWorldCqrs.Core.Domain.Routers;
+using ManagedDesigns.RealWorldCqrs.Core.Infrastructure;
 
 namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Saga
 {
@@ -38,7 +39,7 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Saga
                 throw new ArgumentException("message must contains a valid correlation key");
             }
 
-            orderId = (Guid) message.CorrelationId;
+            orderId = Guid.Parse(message.CorrelationId.ToString());
             Id = message.SagaId;
         }
 

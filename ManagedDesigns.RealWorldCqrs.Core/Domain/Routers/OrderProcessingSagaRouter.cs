@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using CommonDomain;
 using CommonDomain.Persistence;
 using ManagedDesigns.RealWorldCqrs.Core.Domain.Model;
@@ -15,16 +16,17 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Routers
     {
         private readonly ISagaRepository repository;
         private readonly ISagaIdStore sagaIdStore;
+        private readonly ILogger logger;
 
-        public OrderProcessingSagaRouter(ISagaRepository repository, ISagaIdStore sagaIdStore)
+        public OrderProcessingSagaRouter(ISagaRepository repository, ISagaIdStore sagaIdStore, ILogger logger)
         {
             if (repository == null) throw new ArgumentNullException("repository");
             if (sagaIdStore == null) throw new ArgumentNullException("sagaIdStore");
+            if (logger == null) throw new ArgumentNullException("logger");
             this.sagaIdStore = sagaIdStore;
+            this.logger = logger;
             this.repository = repository;
         }
-
-        #region All Members
 
         public void Consume(OrderPlaced message)
         {
@@ -35,11 +37,8 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Routers
             saga.Transition(message);
 
             repository.Save(saga, Guid.NewGuid(), null);
+            LogSagaMessage(message, m => m.Id);
         }
-
-        #endregion
-
-        #region All Members
 
         public void Consume(OrderNotValidatedByManager message)
         {
@@ -48,11 +47,8 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Routers
             saga.Transition(message);
 
             repository.Save(saga, Guid.NewGuid(), null);
+            LogSagaMessage(message, m => m.OrderId);
         }
-
-        #endregion
-
-        #region All Members
 
         public void Consume(OrderValidatedByManager message)
         {
@@ -61,8 +57,22 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Routers
             saga.Transition(message);
 
             repository.Save(saga, Guid.NewGuid(), null);
+            LogSagaMessage(message, m=> m.OrderId);
         }
 
-        #endregion
+        private void LogSagaMessage<TMessage>(TMessage message, Expression<Func<TMessage, Guid>> getCorrelationKey)
+        {
+            var memberExpression = getCorrelationKey.Body as MemberExpression;
+
+            if (memberExpression == null)
+                throw new InvalidOperationException("Invalid get operation key"); 
+
+            var name = memberExpression.Member.Name;
+
+            Guid correlationId = getCorrelationKey.Compile().Invoke(message);
+            Guid sagaId = sagaIdStore.GetSagaIdFromCorrelationKey<OrderProcessingSaga>(correlationId);
+
+            logger.LogDebug(LoggerNames.Saga, "Saga type '{0}' id '{1}' receive an '{2}' event with correlation '{3}' '{4}'", typeof(OrderProcessingSaga).FullName, sagaId, message.GetType().FullName, name, correlationId);
+        }
     }
 }

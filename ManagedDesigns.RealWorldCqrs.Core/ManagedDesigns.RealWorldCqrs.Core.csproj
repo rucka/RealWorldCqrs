@@ -75,19 +75,34 @@
     <Reference Include="CommonDomain">
       <HintPath>..\packages\CommonDomain.1.4.0\lib\net40\CommonDomain.dll</HintPath>
     </Reference>
-    <Reference Include="EventStore">
-      <HintPath>..\packages\EventStore.3.0.11326.44\lib\net40\EventStore.dll</HintPath>
+    <Reference Include="EventStore, Version=3.2.0.0, Culture=neutral, PublicKeyToken=7735eb81c0bd9948, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EventStore.3.2.0.28\lib\net40\EventStore.dll</HintPath>
     </Reference>
     <Reference Include="Magnum">
       <HintPath>..\packages\Magnum.2.1.0\lib\NET40\Magnum.dll</HintPath>
     </Reference>
-    <Reference Include="MassTransit">
-      <HintPath>..\packages\MassTransit.2.7.1\lib\net40\MassTransit.dll</HintPath>
+    <Reference Include="MassTransit, Version=2.8.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MassTransit.2.8.0\lib\net40\MassTransit.dll</HintPath>
     </Reference>
-    <Reference Include="MassTransit.Transports.MSMQ">
-      <HintPath>..\packages\MassTransit.2.7.1\lib\net40\MassTransit.Transports.MSMQ.dll</HintPath>
+    <Reference Include="MassTransit.Transports.MSMQ, Version=2.8.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MassTransit.2.8.0\lib\net40\MassTransit.Transports.MSMQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Client.2.0.2380\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Client.2.0.2380\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +142,7 @@
     <Compile Include="Domain\Routers\SagaStarted.cs" />
     <Compile Include="Domain\Saga\OrderProcessingSaga.cs" />
     <Compile Include="Infrastructure\AggregateRoot.cs" />
+    <Compile Include="Infrastructure\ILogger.cs" />
     <Compile Include="Infrastructure\ISagaIdStore.cs" />
     <Compile Include="Infrastructure\StorageAccess.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />

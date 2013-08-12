@@ -6,5 +6,8 @@ TestResult
 bin
 obj
 article
+ManagedDesigns.RealWorldCqrs.Core/UiSimulator.cs
+ManagedDesigns.RealWorldCqrs.Core/Program.cs
+ManagedDesigns.RealWorldCqrs.Core/app.config
 packages/*
 !packages/repositories.config

@@ -11,6 +11,7 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Model
             Id = id;
             Description = description;
             ProductName = productName;
+            PlaceDate = DateTime.Now;
         }
 
         public Guid Id { get; private set; }
@@ -18,6 +19,7 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Model
         public string ProductName { get; private set; }
         public int Quantity { get; private set; }
         public double Price { get; private set; }
+        public DateTime PlaceDate { get; private set; }
     }
 
     public class OrderAccepted
@@ -26,10 +28,12 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Model
         {
             Id = id;
             Description = description;
+            AcceptedDate = DateTime.Now;
         }
 
         public Guid Id { get; private set; }
         public string Description { get; set; }
+        public DateTime AcceptedDate { get; private set; }
     }
 
     public class OrderRejected
@@ -39,10 +43,12 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.Model
             Id = id;
             Description = description;
             Reason = reason;
+            RejectedDate = DateTime.Now;
         }
 
         public Guid Id { get; private set; }
         public string Description { get; set; }
         public string Reason { get; private set; }
+        public DateTime RejectedDate { get; private set; }
     }
 }

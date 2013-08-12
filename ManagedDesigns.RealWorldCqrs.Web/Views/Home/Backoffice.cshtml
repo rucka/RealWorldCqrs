@@ -1,0 +1,100 @@
+﻿@using ManagedDesigns.RealWorldCqrs.Web.ViewModels
+@model HomeBackofficeViewModel
+
+<div class="span8">
+    @if (Model.Result == HomeBackofficeViewModel.OperationResult.None)
+    {
+        <ul class="listview">
+            @foreach (var manager in Model.Managers)
+            {
+                <li>
+                    <div class="data">
+                        <h4>Manager</h4>
+                        <p>@manager.Fullname</p>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        var color = Model.Result == HomeBackofficeViewModel.OperationResult.Ok ? "green" : "red";
+        var header = Model.Result == HomeBackofficeViewModel.OperationResult.Ok ? "Operation successfully" : "Operation error";
+        <div class="notices">
+        <div class="bg-color-@color">
+            <a href="@Url.Action("Backoffice", "Home")" class="close"></a>
+            <div class="notice-header"> @header </div>
+            <div class="notice-text"> @Model.OperationMessage </div>
+        </div>
+    </div>
+    }
+    <div id="dialogContent" class="invisible">
+        <form id="form" method="post" action="@Url.Action("CreateManager")">
+            <div class="input-control text">
+                <i class="icon-blocked invisible red" title="name cannot be empty or already used" style="float:right"></i>
+                <input type="text" name="fullname" placeholder="Enter full name" autocomplete="off"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section appbar
+{
+    @if (Model.Result == HomeBackofficeViewModel.OperationResult.None)
+    {
+        <div id="addButton" class="place-left icon-text fg-color-white">
+            <i class="icon-3x icon-plus-2" style="cursor: pointer"></i>
+            <span>create manager</span>
+        </div>
+    }
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(window).ready(function () {
+            $('input[name="fullname"]').bind("change paste keyup", function () {
+                onFullnameTextChange($(this).val());
+            });
+            
+            function onFullnameTextChange(text) {
+                var url = '@Url.Action("IsValidManagerName")?fullname=' + text;
+                $.get(url).
+                    done(function (data) {
+                        var button = $("#dialogButtons button:first");
+                        if (data === 'True') {
+                            button.removeAttr('disabled');
+                            $('.icon-blocked').addClass('invisible');
+                        }
+                        if (data === 'False') {
+                            button.attr('disabled', 'disabled');
+                            $('.icon-blocked').removeClass('invisible');
+                        }
+                    });
+            }
+
+            $('#addButton').click(function () {
+                $.Dialog({
+                    'title': 'Create a new manager',
+                    'content': '',
+                    'buttons': {
+                        'Ok': {
+                            'action': function () {
+                                $('#form').submit();
+                                $('#dialogContent').addClass('invisible').appendTo('body');
+                            }
+                        },
+                        'Cancel': {
+                            'action': function () {
+                                $('#dialogContent').addClass('invisible').appendTo('body');
+                            }
+                        }
+                    }
+                });
+                $('#dialogContent').appendTo($("#dialogBox div.content"));
+                $('#dialogContent').removeClass('invisible');
+                onFullnameTextChange('');
+            });
+        });
+    </script>
+}

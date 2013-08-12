@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Raven.Client;
 
 namespace ManagedDesigns.RealWorldCqrs.Core.Infrastructure
 {
@@ -83,5 +84,65 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Infrastructure
         }
 
         #endregion
+    }
+
+
+    public class RavenDbUpdateStorage : IUpdateStorage
+    {
+        private readonly IDocumentStore documentStore;
+
+        public RavenDbUpdateStorage(IDocumentStore documentStore)
+        {
+            if (documentStore == null) throw new ArgumentNullException("documentStore");
+            this.documentStore = documentStore;
+        }
+
+        public IEnumerable<TItem> Items<TItem>() where TItem : class
+        {
+            using (var session = this.documentStore.OpenSession())
+            {
+                return session.Query<TItem>();
+            }
+        }
+
+        public IEnumerable<TItem> Items<TItem>(Func<TItem, bool> @where) where TItem : class
+        {
+            using (var session = this.documentStore.OpenSession())
+            {
+                return session.Query<TItem>().Where(@where);
+            }
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public void Add<TItem>(TItem item) where TItem : class
+        {
+            using (var session = this.documentStore.OpenSession())
+            {
+                session.Store(item);
+                session.SaveChanges();
+            }
+        }
+
+        public void Remove<TItem>(TItem item) where TItem : class
+        {
+            using (var session = this.documentStore.OpenSession())
+            {
+                session.Store(item);
+                session.Delete(item);
+                session.SaveChanges();
+            }
+        }
+
+        public void Update<TItem>(TItem item) where TItem : class
+        {
+            using (var session = this.documentStore.OpenSession())
+            {
+                session.Store(item);
+                session.SaveChanges();
+            }
+        }
     }
 }

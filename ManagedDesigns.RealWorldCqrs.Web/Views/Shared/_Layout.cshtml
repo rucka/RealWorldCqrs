@@ -1,0 +1,47 @@
+﻿@model ManagedDesigns.RealWorldCqrs.Web.ViewModels.BaseViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.Title</title>
+    @Styles.Render("~/Content/metroui")
+    @Styles.Render("~/Content/css") 
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="metrouicss bg-color-blueLight">
+    <div class="page secondary">
+        <div class="page-header">
+            <div class="page-header-content">
+                @if (ViewContext.RouteData.Values["action"].ToString() != "Index")
+                {
+                    <a href="@Url.Action("Index", "Home")"><i class="icon-arrow-left-3 icon-4x"></i></a>
+                }
+                <h1>Bookshelf</h1>
+                <h2>Cqrs &<br/>Event Sourcing</h2>
+            </div>
+        </div>
+ 
+        <div class="page-region">
+            <div class="page-region-content">
+                @RenderBody()
+            </div>
+        </div>  
+        <div class="app-bar" style="padding-right: 20px">
+            @RenderSection("appbar", required: false)
+            <a href="@Url.Action("OrderMonitor")" class="place-right icon-text fg-color-white">
+                <i class="icon-3x icon-dashboard"></i>
+                <span>order<br />monitor</span>
+            </a>
+            <a href="@Url.Action("Backoffice")" class="place-right icon-text fg-color-white">
+                <i class="icon-3x icon-wrench"></i>
+                <span>backoffice</span>
+            </a>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/metroui")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

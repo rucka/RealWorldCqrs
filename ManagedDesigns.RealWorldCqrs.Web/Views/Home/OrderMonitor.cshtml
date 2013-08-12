@@ -1,0 +1,176 @@
+﻿@using ManagedDesigns.RealWorldCqrs.Web.ViewModels
+@model HomeOrderMonitorViewModel
+
+    @if (Model.Result != HomeOrderMonitorViewModel.OperationResult.None)
+    {
+    <div class="span8">
+    @{
+        var color = Model.Result == HomeOrderMonitorViewModel.OperationResult.Ok ? "green" : "red";
+        var header = Model.Result == HomeOrderMonitorViewModel.OperationResult.Ok ? "Order validation submitted successfully" : "Operation error";
+    }
+        <div class="notices">
+            <div class="bg-color-@color">
+                <a href="@Url.Action("OrderMonitor", "Home")" class="close"></a>
+                <div class="notice-header"> @header </div>
+                <div class="notice-text"> @Model.OperationMessage </div>
+            </div>
+        </div>
+
+    </div>
+    }
+    else
+    {
+        <div class="metro-scroll" style="overflow: hidden">
+            <div class="notices invisible">
+                <div id="notice-box" class="">
+                    <a href="#" class="close"></a>
+                    <div id="notice-header" class="notice-header"> Title</div>
+                    <div id="notice-text" class="notice-text"> result </div>
+                </div>
+            </div>
+            <div class="content clearfix" style="width: 2640px">
+                <div class="metro-sections" style="width: 2640px">
+                    <div id="invalidation" class="metro-section bg-color-yellow">
+                        <h2>In validation (next 10)</h2>
+                        @if (!Model.InProgressOrders.Any())
+                        {
+                            <span>no orders in validation</span>
+                        }
+                        else
+                        {
+                            <ul class="listview">
+                                @foreach (var order in Model.InProgressOrders.OrderBy(d => d.CreationDate).Take(10))
+                                {
+                                    <li>
+                                        <div class="data">
+                                            <input type="hidden" name="orderId" value="@order.OrderId"/>
+                                            <h4>@order.ProductName</h4>
+                                            <div><span class="pull-left">Quantity: @order.Quantity</span><span class="pull-right">Total: @order.TotalAmount</span></div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }            
+                    </div>
+
+                    <div class="metro-section bg-color-green">
+                        <h2>Accepted (last 10)</h2>
+                        @if (!Model.AcceptedOrders.Any())
+                        {
+                            <span>no orders accepted</span>
+                        }
+                        else
+                        {
+                            <ul class="listview">
+                                @foreach (var order in Model.AcceptedOrders.OrderByDescending(d => d.AcceptedDate).Take(10))
+                                {
+                                    <li>
+                                        <div class="data">
+                                            <h4>@order.Description</h4>
+                                            <p>@order.AcceptedDate.ToString("dd/MM/yyyy hh:mm:ss")</p>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+
+                    <div class="metro-section bg-color-red">
+                        <h2>Refused (last 10)</h2>
+                        @if (!Model.RejectedOrders.Any())
+                        {
+                            <span>no orders refused</span>
+                        }
+                        else
+                        {
+                            <ul class="listview">
+                                @foreach (var order in Model.RejectedOrders.OrderByDescending(d => d.RejectedDate).Take(10))
+                                {
+                                    <li>
+                                        <div class="data">
+                                            <h4 title="@order.Reason">@order.Description</h4>
+                                            <p>@order.RejectedDate.ToString("dd/MM/yyyy hh:mm:ss")</p>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+    
+            <div id="dialogContent" class="invisible">
+                @if (!Model.AvailableManagers.Any())
+                {
+                    <p>You need to add at least one manager</p>
+                }
+                else
+                {
+                    using (Html.BeginForm("AssignOrder", "Home", FormMethod.Post))
+                    {
+                        <p>
+                            <input type="hidden" name="orderId" value="-1"/>
+                            <select name="managerId">
+                                @foreach (var manager in Model.AvailableManagers)
+                                {
+                                    <option value="@manager.Id">@manager.Fullname</option>
+                                }
+                            </select>
+                            <button class="default" type="submit">Choose</button>
+                        </p>
+                    }
+                }
+            </div>
+        </div>
+    }
+@section appbar
+{
+    <div id="validationButton" class="invisible place-left icon-text fg-color-white">
+        <i class="icon-3x icon-monitor" style="cursor: pointer"></i>
+        <span>validate</span>
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(window).ready(function() {
+            $("#invalidation li").click(function() {
+                var wasSelected = $(this).hasClass('selected');
+                var isSelected = !wasSelected;
+                $("#invalidation li.selected").removeClass('selected');
+                if (isSelected) {
+                    $(this).addClass('selected');
+                } else {
+                    $(this).removeClass('selected');
+                }
+                if (isSelected) {
+                    $('#validationButton').removeClass('invisible');
+                } else {
+                    $('#validationButton').addClass('invisible');
+                }
+            });
+
+            $('#validationButton').click(function() {
+
+                $('#dialogContent [name="orderId"]').val($('#invalidation li.selected [name="orderId"]').val());
+
+                $.Dialog({
+                    'title': 'Assign order to manager',
+                    'content': '',
+                    'buttons': {
+                            'Cancel': {
+                                'action': function() {
+                                    $("#invalidation li.selected").click();
+                                    $('#dialogContent').addClass('invisible').appendTo('body');
+                                }
+                            }
+                        }
+                    });
+                $('#dialogContent').appendTo($("#dialogBox div.content"));
+                $('#dialogContent').removeClass('invisible');
+            });
+        });
+    </script>
+}

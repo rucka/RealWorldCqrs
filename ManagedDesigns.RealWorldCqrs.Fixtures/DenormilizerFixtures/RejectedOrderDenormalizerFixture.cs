@@ -20,7 +20,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
         {
             var updateStorage = new InMemoryDbUpdateStorage();
             this.readStorage = updateStorage;
-            OrderRejectedDenormalizer denormalizer = new OrderRejectedDenormalizer(updateStorage);
+            OrderRejectedDenormalizer denormalizer = new OrderRejectedDenormalizer(updateStorage, new EmptyLogger());
             denormalizer.Consume(new OrderRejected(orderId, "fake order", "order not valid"));
         }
 
@@ -33,7 +33,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
         [TestMethod]
         public void then_order_in_accepted_has_expected_orderId()
         {
-            this.readStorage.Items<RejectedOrder>().Single().Id.Should().Be.EqualTo(orderId.ToString());
+            this.readStorage.Items<RejectedOrder>().Single().OrderId.Should().Be.EqualTo(orderId.ToString());
         }
     }
 }

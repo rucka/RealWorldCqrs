@@ -1,0 +1,124 @@
+﻿#main {
+    height: 672px;
+    width: 100%;
+}
+
+.metrouicss a .icon-2x {
+    font-size: 2em;
+}
+
+.metrouicss a .icon-3x {
+    font-size: 3em;
+}
+
+.metrouicss a .icon-4x {
+    font-size: 4em;
+}
+
+.invisible {
+    display: none;
+    visibility: hidden;
+}
+
+.page .page-header .page-header-content i.icon-arrow-left-3 {
+    position: absolute;
+    margin-left: 10px;
+    padding: 0;
+    left: 0;
+    bottom: 0;
+    color: black;
+}
+
+
+
+.page .page-header .page-header-content h2 {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    right: 200px;
+    bottom: 0;
+}
+
+.icon-text {
+    display: block;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+    .icon-text span,
+    .icon-text i {
+        display: block;
+        margin: 5px;
+    }
+
+.page-region-content.tiles {
+    width: 100%;
+}
+
+.metrouicss .tile .tile-content.book-info i.icon-book {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 5px;
+}
+
+.metrouicss .tile .tile-content.book-info h4 {
+    position: absolute;
+    padding-top: 5px;
+    padding-right: 50px;
+    margin-left: 5px;
+}
+
+.metrouicss .tile .tile-content.book-info h5 {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    margin-right: 5px;
+}
+
+.metrouicss .tile .tile-content.book-info h6 {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    margin-left: 5px;
+}
+
+.metro-scroll {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.metro-sections {
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    width: 10000px;
+    margin-bottom: 90px;
+}
+
+.metro-sections .metro-section {
+    float: left;
+    margin-right: 75px;
+    height: auto;
+    width: 360px;
+    position: relative;
+}
+
+.metro-section div h2, .metro-section div h4 {
+    text-align: center;
+}
+
+.metrouicss .listview li {
+    margin-left: 30px;
+    padding-right: 20px;
+}
+
+.pull-right {
+    float: right
+}
+
+.pull-left {
+    float: left
+}

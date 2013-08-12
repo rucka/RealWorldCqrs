@@ -2,6 +2,7 @@ namespace ManagedDesigns.RealWorldCqrs.Core.Domain.QueryModel
 {
     public class ValidationOrder
     {
+        public string Id { get; set; }
         public string OrderId { get; set; }
         public string ManagerId { get; set; }
         public string ManagerName { get; set; }

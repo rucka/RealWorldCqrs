@@ -20,7 +20,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
         {
             var updateStorage = new InMemoryDbUpdateStorage();
             this.readStorage = updateStorage;
-            OrderInProgressDenormilizer denormilizer = new OrderInProgressDenormilizer(updateStorage);
+            OrderInProgressDenormilizer denormilizer = new OrderInProgressDenormilizer(updateStorage, new EmptyLogger());
             denormilizer.Consume(new OrderPlaced(orderId, "fake order", "fake_product", 1, 10));
         }
 
@@ -33,7 +33,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
         [TestMethod]
         public void then_order_in_progress_has_expected_orderId()
         {
-            this.readStorage.Items<OrderInProgress>().Single().Id.Should().Be.EqualTo(orderId.ToString());
+            this.readStorage.Items<OrderInProgress>().Single().OrderId.Should().Be.EqualTo(orderId.ToString());
         }
     }
 
@@ -49,7 +49,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
             var updateStorage = new InMemoryDbUpdateStorage();
             updateStorage.Add(new OrderInProgress()
                                   {
-                                      Id = orderId.ToString(),
+                                      OrderId = orderId.ToString(),
                                       Description = "fake order",
                                       ProductName = "fake_product",
                                       Price = 1,
@@ -57,7 +57,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
                                       TotalAmount = 10
                                   });
             this.readStorage = updateStorage;
-            OrderInProgressDenormilizer denormilizer = new OrderInProgressDenormilizer(updateStorage);
+            OrderInProgressDenormilizer denormilizer = new OrderInProgressDenormilizer(updateStorage, new EmptyLogger());
             denormilizer.Consume(new OrderAccepted(orderId, "fake order"));
         }
 
@@ -80,7 +80,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
             var updateStorage = new InMemoryDbUpdateStorage();
             updateStorage.Add(new OrderInProgress()
             {
-                Id = orderId.ToString(),
+                OrderId = orderId.ToString(),
                 Description = "fake order",
                 ProductName = "fake_product",
                 Price = 1,
@@ -88,7 +88,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
                 TotalAmount = 10
             });
             this.readStorage = updateStorage;
-            OrderInProgressDenormilizer denormilizer = new OrderInProgressDenormilizer(updateStorage);
+            OrderInProgressDenormilizer denormilizer = new OrderInProgressDenormilizer(updateStorage, new EmptyLogger());
             denormilizer.Consume(new OrderRejected(orderId, "fake order", "order is not valid!"));
         }
 

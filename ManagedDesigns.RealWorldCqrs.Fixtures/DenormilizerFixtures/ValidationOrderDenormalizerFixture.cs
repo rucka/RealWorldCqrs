@@ -21,7 +21,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
         {
             var updateStorage = new InMemoryDbUpdateStorage();
             this.readStorage = updateStorage;
-            ValidationOrderDenormilizer denormilizer = new ValidationOrderDenormilizer(updateStorage);
+            ValidationOrderDenormilizer denormilizer = new ValidationOrderDenormilizer(updateStorage, new EmptyLogger());
             denormilizer.Consume(new OrderValidatedByManager(managerId, orderId, "Max Cole"));
         }
 
@@ -62,7 +62,7 @@ namespace ManagedDesigns.RealWorldCqrs.Fixtures.DenormalizerFixtures
         {
             var updateStorage = new InMemoryDbUpdateStorage();
             this.readStorage = updateStorage;
-            ValidationOrderDenormilizer denormilizer = new ValidationOrderDenormilizer(updateStorage);
+            ValidationOrderDenormilizer denormilizer = new ValidationOrderDenormilizer(updateStorage, new EmptyLogger());
             denormilizer.Consume(new OrderNotValidatedByManager(managerId, orderId, "order not valid", "Max Cole"));
         }
 

@@ -1,0 +1,151 @@
+﻿@using System.Globalization
+@model ManagedDesigns.RealWorldCqrs.Web.ViewModels.HomeIndexViewModel
+
+@{
+    var random = new Random();
+    var colors = new[] { "red", "green", "yellow", "blue", "orange", "pink" };
+}
+
+<div class="span12">
+    <div class="notices invisible">
+        <div id="notice-box" class="">
+            <a href="#" class="close"></a>
+            <div id="notice-header" class="notice-header"> Title</div>
+            <div id="notice-text" class="notice-text"> result </div>
+        </div>
+    </div>
+    @foreach (var book in Model.Books)
+    {
+        <div class="tile double image-slider bg-color-@colors[random.Next(colors.Length)]" data-role="tile-slider" data-param-direction="up" data-param-period="@(random.Next(2, 10))000" data-param-duration="@(random.Next(2, 10))000">
+            <div class="tile-content book-info fg-color-darken">
+                <i class="icon-book icon-3x"></i>
+                <h4 data-book="name">@book.Name</h4>
+                <h5 data-book="author" class="place-right"><i class="icon-user"></i>@book.Author</h5>
+                <input type="hidden" value="@book.Price.ToString(CultureInfo.InvariantCulture)" data-book="price"/>
+            </div>
+            <div class="tile-content">
+                <img src="@Url.Content(book.ImageUrl)" style="width: auto;height: 100%"/></div>
+        </div>
+    }
+    
+    <div id="dialogContent" class="invisible">
+        <span id="book-name"></span>
+        <div>price:&nbsp;<span id="book-price"></span>&nbsp; euro</div>
+        <div>quantity:&nbsp;<span id="book-quantity"></span></div>
+        <div class="toolbar" style="margin-top: 5px; float: right">
+            <button id="plus"><i class="icon-plus"></i></button>
+            <button id="minus"><i class="icon-minus"></i></button>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+</div>
+
+@section appbar
+{
+    <div id="orderButton" class="invisible place-left icon-text fg-color-white">
+        <i class="icon-3x icon-cart-2" style="cursor: pointer"></i>
+        <span>order</span>
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(window).ready(function () {
+            $(".tile").click(function () {
+                var wasSelected = $(this).hasClass('selected');
+                var isSelected = !wasSelected;
+                $(".tile.selected").removeClass('selected');
+                if (isSelected) {
+                    $(this).addClass('selected');
+                } else {
+                    $(this).removeClass('selected');
+                }
+                if (isSelected) {
+                    $('#orderButton').removeClass('invisible');
+                } else {
+                    $('#orderButton').addClass('invisible');
+                }
+            });
+
+            $('#orderButton').click(function() {
+                $.Dialog({
+                    'title': 'Push an order',
+                    'content': '',
+                    'buttons': {
+                        'Ok': {
+                            'action': function () {
+                                var param = {
+                                    book: $('#book-name').text(),
+                                    quantity: $('#book-quantity').text()
+                                };
+
+                                $('#notice-header').text('Place order');
+
+                                $.post("@Url.Action("PlaceOrder")", param)
+                                    .done(function(data) {
+                                        if (data.Result === true) {
+                                            $('#notice-box').addClass('bg-color-green');
+                                            $('#notice-text').text('order placed! Go to monitor to verify processing status.');
+                                        } else {
+                                            $('#notice-box').addClass('bg-color-red');
+                                            $('#notice-text').text('order error! ' + data.Error);
+                                        }
+                                        $('div.notices').removeClass('invisible');
+                                    })
+                                    .fail(function() {
+                                        $('#notice-box').addClass('bg-color-red');
+                                        $('#notice-text').text('order error! ' + data.Error);
+                                        $('div.notices').removeClass('invisible');
+                                    });
+
+                                $(".tile.selected").click();
+                            
+                                $('#notice-box').addClass('bg-color-green');
+
+                                $('#dialogContent').addClass('invisible').appendTo('body');
+                            }
+                        },
+                        'Cancel': {
+                            'action': function () {
+                                $(".tile.selected").click();
+                                $('#dialogContent').addClass('invisible').appendTo('body');
+                            }
+                        }
+                    }
+                });
+
+                var name = $('.tile.selected [data-book="name"]').text();
+                var price = $('.tile.selected [data-book="price"]').val();
+
+                $('#book-name').text(name);
+                $('#book-price').text(price);
+                $('#book-quantity').text(0);
+
+
+                $('#dialogContent').appendTo($("#dialogBox div.content"));
+                $('#dialogContent').removeClass('invisible');
+            });
+
+            $('div.notices a').click(function () {
+                $('div.notices').addClass('invisible');
+                $('#notice-box').removeClass('bg-color-green');
+                $('#notice-box').removeClass('bg-color-red');
+            });
+            
+            $('#plus').click(function () {
+                var quantity = parseInt($('#book-quantity').text()) + 1;
+                $('#book-quantity').text(quantity);
+            });
+
+            $('#minus').click(function () {
+                var quantity = parseInt($('#book-quantity').text()) - 1;
+                if (quantity < 0) {
+                    return;
+                }
+                $('#book-quantity').text(quantity);
+            });
+        });
+    </script>
+
+}
